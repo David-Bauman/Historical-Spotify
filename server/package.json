@@ -1,0 +1,19 @@
+{
+  "name": "Historical-Spotify-Server-Side",
+  "version": "1.0.0",
+  "description": "Spotify historical playlists",
+  "main": "app.js",
+  "author": "David Bauman",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server-express": "^1.4.0",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "express-graphql": "^0.6.12",
+    "graphql": "^0.13.2",
+    "moment": "^2.22.2",
+    "mysql": "^2.16.0",
+    "nodemon": "^1.18.3",
+    "request": "^2.87.0"
+  }
+}
