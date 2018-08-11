@@ -1,3 +1,10 @@
+node_modules
+auth_options.py
+nohup.out
+package-lock.json
+yarn.lock
+bootstrap-custom
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

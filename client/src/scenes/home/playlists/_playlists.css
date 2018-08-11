@@ -1,0 +1,45 @@
+.cover-image-container {
+    margin: 0;
+    display: block;
+    border: 0;
+    outline: 0;
+    position: relative;
+    background-color: #282828;
+    padding-top: 100%;
+    width: auto;
+    height: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+}
+
+.cover-image {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    background-size: cover !important;
+    background-position: 50%;
+}
+
+.cover-image:hover {
+    filter: brightness(0.25)
+}
+
+.playlist-title-container {
+    margin: 12px 0 4px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    display: block;
+}
+
+.playlist-title {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: .015em;
+    font-weight: 400;
+    color: #fff;
+    text-transform: none;
+    max-height: 560px;
+}

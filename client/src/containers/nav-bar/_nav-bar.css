@@ -1,0 +1,73 @@
+.nav-bar > nav {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: hsla(0, 0%, 100%, .6);
+}
+
+.nav-bar > nav > ul > li {
+    padding-bottom: 5px;
+    padding-top: 10px;
+}
+
+.nav-item-container {
+    font-size: 16px;
+    line-height: 22px;
+    letter-spacing: .015em;
+    font-weight: 600;
+    padding: 3px 0 3px 36px;
+    position: relative;
+}
+
+.nav-item-container:hover {
+    color: white;
+}
+
+.nav-item {
+    border: 0;
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nav-item-icon {
+    position: absolute;
+    left: 0;
+    top: 2px;
+    height: 24px;
+    width: 24px;
+}
+
+.nav-bar {
+    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.75);
+    overflow: auto;
+    min-height: 0 !important;
+}
+
+.searched-playlist {
+    color: white;
+}
+
+.searched-playlist:hover {
+    color: gray;
+}
+
+.searched-playlist-container {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.searched-playlist-container:hover {
+    background: rgba(0, 0, 0, .5);
+}

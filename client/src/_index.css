@@ -1,0 +1,23 @@
+body {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 200;
+  background: black;
+  font-family: Helvetica Neue, Helvetica, sans-serif;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+a, a:focus, a:hover {
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+*:hover, *:focus {
+  outline: none;
+}

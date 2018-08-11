@@ -1,0 +1,26 @@
+.main-container {
+  min-height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.information-container {
+  padding-left: 200px;
+  width: 100%;
+  min-height: 0 !important;
+}
+
+.spaced {
+  padding: 0 2em;
+  margin: 0 auto;
+  max-width: 1480px;
+}
+
+.header {
+  font-size: 36px;
+  line-height: 44px;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+  margin: 24px 0;
+}
