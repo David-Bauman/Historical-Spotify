@@ -4,3 +4,4 @@ export {addPlaylist, fetchPlaylistIds} from './add-playlist';
 export {fetchSearchablePlaylists} from './search-bar';
 export {getUserAuth, getInitialAccessToken} from './login';
 export {playSong} from './play';
+export {getUserName} from './user';

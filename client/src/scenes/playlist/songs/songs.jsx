@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {toast} from 'react-toastify';
 import {playSong} from './../../../services/api';
 import './songs.css';
 
@@ -26,7 +27,10 @@ export class Song extends React.Component {
 	}
 
     play() {
-        playSong(`spotify:track:${this.props.song.songId}`, window.player);
+        if (window.player)
+            playSong(`spotify:track:${this.props.song.songId}`, window.player);
+        else
+            toast.error('You need to be logged in to a Spotify Premium account to play songs.');
     }
 
 	render() {

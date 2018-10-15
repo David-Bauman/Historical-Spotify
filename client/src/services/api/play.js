@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-//expects a SpotifyPlayer as second option
+//expects a SpotifyPlayer as second param
 export function playSong(URI, {_options: {getOAuthToken, id}}) {
   getOAuthToken(token => {
     axios({

@@ -9,6 +9,7 @@ const getPlaylists = () => {
 				'SELECT id, name, description, imageURL, views, createDate FROM hs_playlists.general ORDER BY views DESC;',
 				(err, result) => {
 					if (err) reject(err);
+                    connection.end();
 					resolve(result);
 				}
 			);
@@ -43,6 +44,7 @@ const getMostRecentPlaylist = ({id}) => {
 					for (let i = 0; i < result[2].length; i++) {
 						dates.push(result[2][i]['timestamp']);
 					}
+                    connection.end();
 					resolve({songs: result[0], overview: result[1][0], possibleDates: dates});
 				});
 			});
@@ -68,6 +70,7 @@ const getHistoricalPlaylist = ({id, date}) => {
 
 				connection.query(songsQuery + overviewQuery, [ids, ids], (err, result) => {
 					if (err) reject(err);
+                    connection.end();
 					resolve({songs: result[0], overview: result[1][0]});
 				});
 			});

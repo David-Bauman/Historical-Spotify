@@ -2,7 +2,7 @@ import React from 'react';
 import {withRouter} from 'react-router';
 import qs from 'stringquery';
 import {withCookies} from 'react-cookie';
-import {getUserAuth, getInitialAccessToken} from './../../services/api';
+import {getUserAuth, getInitialAccessToken, getUserName} from './../../services/api';
 
 class userInfo extends React.Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class userInfo extends React.Component {
     const params = qs(this.props.location.search);
     if (params.code) {
       getInitialAccessToken(params.code).then(res => {
-        props.cookies.set('HS-client-access', res.data.access_token);
+        props.cookies.set('HS-client-access', res.data.access_token, {maxAge: 3600});
         props.cookies.set('HS-client-refresh', res.data.refresh_token);
         this.setState({access: res.data.access_token, refresh: res.data.refresh_token});
         this.createPlayer();
@@ -36,6 +36,7 @@ class userInfo extends React.Component {
       this.player = new window.Spotify.Player(options);
       window.player = this.player;
       this.player.connect();
+      getUserName(access).then(res => this.setState({user: {name: res.data.display_name, image: res.data.images[0]}}));
     } else {
       setTimeout(this.createPlayer, 500);
     }
@@ -46,6 +47,15 @@ class userInfo extends React.Component {
   }
 
   render() {
+    const user = this.state.user;
+    if (user) 
+      return (
+      <div style={{position: 'absolute', borderTop: '1px solid gray', bottom: '25px', alignSelf: 'center', fontSize: '18px', width: '80%', textAlign: 'center', paddingTop: '15px'}}>
+        {user.image && <img src={user.image.url} alt={'user\'s avatar'} style={{width: '30px', height: '30px', display: 'inline-block'}} />}
+        <span>{user.name}</span>
+      </div>
+      );
+
     return (
 	<div style={{position: 'absolute', width: '150px', alignSelf: 'center', bottom: '25px'}}>
 	  <a 
