@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {fetchSearchablePlaylists} from './../../services/api';
 import {loadingScreen} from './../../constants/functions';
 import {NavBar} from '.';
@@ -39,12 +40,12 @@ export class ControlledSearchNavBar extends React.Component {
 			<NavBar onSearch={this.onSearch}>
 				<ul style={{listStyle: 'none', paddingLeft: '0'}}>
 					{playlists.map((item, index) =>
-						<li key={item.name + index} className='searched-playlist-container'>
-							<a href={`/playlist/${item.id}`} className='searched-playlist'>
-								<img style={{width: '50%'}} src={item.imageURL}	alt='playlist cover' />
-								<p style={{display: 'inline', marginLeft: '5px'}}>{item.name}</p>
-							</a>
-						</li>
+					<li key={item.name + index} className='searched-playlist-container'>
+						<Link to={`/playlist/${item.id}`} className='searched-playlist'>
+							<img style={{width: '50%'}} src={item.imageURL}	alt='playlist cover' />
+							<p style={{display: 'inline', marginLeft: '5px'}}>{item.name}</p>
+						</Link>
+					</li>
 					)}
 				</ul>
 			</NavBar>

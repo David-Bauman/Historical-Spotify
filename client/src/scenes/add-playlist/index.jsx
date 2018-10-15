@@ -1,10 +1,9 @@
-import React from 'react';
+import React, {Fragment} from 'react';
+import {Link} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {addPlaylist, fetchPlaylistIds} from './../../services/api';
 import {loadingScreen} from './../../constants/functions';
 import picture from './../../constants/add_playlist.png';
-import {GradientBackground} from './../../components';
-import {ControlledSearchNavBar} from './../../containers';
 
 const URIRegexValidation = /^spotify:user:.+:playlist:[a-zA-Z0-9]{22}$/;
 const PlaylistLinkRegexValidation = /^https:\/\/open.spotify.com\/user\/.+\/playlist\/[a-zA-Z0-9]{22}\??.*$/;
@@ -86,77 +85,71 @@ class AddPlaylist extends React.Component {
 	render() {
 		const {input, loading, newPlaylist} = this.state;
 		return (
-			<div>
-				<GradientBackground />
-				<div className='main-container'>
-					<ControlledSearchNavBar />
-					<div className='information-container'>
-						<div className='spaced'>
-							<h1 className='header'>
-								Add A Playlist
-							</h1>
-							{loading && loadingScreen(50, 'center', {fontSize: '45px', marginTop: '40px'})}
-							{(!loading && !newPlaylist) &&
-							<div style={{padding: '0', marginRight: 'auto', marginLeft: 'auto'}}>
-								<input
-									autoFocus
-									onChange={e => this.setInput(e.target.value)}
-									placeholder='Enter a Spotify URI or playlist link'
-									style={{
-										background: 'rgba(0, 0, 0, .5)',
-										border: 'rgba(0, 0, 0, .5)',
-										color: 'white',
-										fontSize: '20px',
-										height: '40px',
-										width: '100%',
-									}}
-									value={input}
-								/>
-								<button className='btn btn-success' onClick={this.handleAdd} style={{fontSize: '20px', marginTop: '10px'}}>
-									Add the new Playlist!
-								</button>
-								<div style={{marginTop: '20px'}}>
-									<h3 style={{color: 'white', textDecoration: 'underline'}}>
-										Where to find the Spotify URI or playlist link
-									</h3>
-									<img
-										alt={'Spotify Playlist with \'Copy Playlist Link\' and \'Copy Spotify URI\' highlighted'}
-										src={picture}
-										style={{marginBottom: '20px'}}
-									/>
-								</div>
-							</div>
-							}
-							{(!loading && newPlaylist) &&
-							<div>
-								<h3 style={{color: 'white', marginBottom: '10px',textAlign: 'center'}}>
-									<a href={`/playlist/${newPlaylist.id}`}>{newPlaylist.name}</a> successfully added!
-								</h3>
-								<img
-									alt='playlist cover'
-									className='cover-image'
-									style={{display: 'block',height: 'inherit', margin: 'auto', width: 'inherit', position: 'relative'}}
-									src={newPlaylist.imageURL}
-								/>
-								<div className='playlist-title-container' style={{color: 'white'}}>
-									<a className='playlist-title' href={`/playlist/${newPlaylist.id}`}>
-										{newPlaylist.name}
-									</a>
-									<p>
-										{newPlaylist.description}
-									</p>
-									<a
-										className='btn btn-success'
-										style={{fontSize: '25px', marginTop: '30px'}}
-										onClick={this.reset}
-									>
-										Add Another Playlist
-									</a>
-								</div>
-							</div>
-							}
+			<div className='information-container'>
+				<div className='spaced'>
+					<h1 className='header'>
+						Add A Playlist
+					</h1>
+					{loading && loadingScreen(50, 'center', {fontSize: '45px', marginTop: '40px'})}
+					{(!loading && !newPlaylist) &&
+					<div style={{padding: '0', marginRight: 'auto', marginLeft: 'auto'}}>
+						<input
+							autoFocus
+							onChange={e => this.setInput(e.target.value)}
+							placeholder='Enter a Spotify URI or playlist link'
+                            style={{
+								background: 'rgba(0, 0, 0, .5)',
+								border: 'rgba(0, 0, 0, .5)',
+								color: 'white',
+								fontSize: '20px',
+								height: '40px',
+								width: '100%',
+							}}
+							value={input}
+						/>
+						<button className='btn btn-success' onClick={this.handleAdd} style={{fontSize: '20px', marginTop: '10px'}}>
+							Add the new Playlist!
+						</button>
+                        <div style={{marginTop: '20px'}}>
+							<h3 style={{color: 'white', textDecoration: 'underline'}}>
+								Where to find the Spotify URI or playlist link
+							</h3>
+							<img
+								alt={'Spotify Playlist with \'Copy Playlist Link\' and \'Copy Spotify URI\' highlighted'}
+								src={picture}
+								style={{marginBottom: '20px'}}
+							/>
 						</div>
 					</div>
+					}
+					{(!loading && newPlaylist) &&
+					<Fragment>
+						<h3 style={{color: 'white', marginBottom: '10px',textAlign: 'center'}}>
+							<Link to={`/playlist/${newPlaylist.id}`}>{newPlaylist.name}</Link> successfully added!
+						</h3>
+						<img
+							alt='playlist cover'
+                            className='cover-image'
+							style={{display: 'block',height: 'inherit', margin: 'auto', width: 'inherit', position: 'relative'}}
+							src={newPlaylist.imageURL}
+						/>
+						<div className='playlist-title-container' style={{color: 'white'}}>
+							<Link className='playlist-title' to={`/playlist/${newPlaylist.id}`}>
+								{newPlaylist.name}
+							</Link>
+							<p>
+								{newPlaylist.description}
+							</p>
+							<Link
+								className='btn btn-success'
+                                style={{fontSize: '25px', marginTop: '30px'}}
+								onClick={this.reset}
+							>
+								Add Another Playlist
+							</Link>
+						</div>
+					</Fragment>
+					}
 				</div>
 			</div>
 		)

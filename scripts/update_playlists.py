@@ -63,7 +63,6 @@ def update_playlist(endpoint, auth):
 
     affected = [None]
     current = cursor.fetchall()
-    print(current)
     if not len(current) or current[0][0] != song_ids or current[0][1] != description or current[0][2] != image:
         affected = []
         playlist_query = "INSERT INTO hs_playlists.%s VALUES %s;" % (id, playlist_info)

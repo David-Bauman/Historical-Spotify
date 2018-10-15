@@ -1,6 +1,5 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import {loadingScreen} from './../../../constants/functions';
 import {fetchPlaylists} from './../../../services/api';
@@ -43,37 +42,7 @@ export class Playlists extends React.Component {
 				</div>
 			);
 		}
-		if (loading)
-			return loadingScreen();
-
-		const {searchValue} = this.props;
-
-		if (searchValue) {
-			const searchvalue = searchValue.toLowerCase().replace(/\\/g, '\\\\');
-
-			playlists = playlists.filter(item => {
-				if (item.name.toLowerCase().search(searchvalue) !== -1)
-					return true;
-				return item.description.toLowerCase().search(searchvalue) !== -1;
-			});
-			if (!playlists.length) {
-				return (
-					<div className='alert text-center' style={{marginTop: '50px', color: 'white'}}>
-						<h3>
-							Seems like we don't have a playlist that matches '{searchValue}'.
-							Add the playlist you're looking for and we'll start collecting data immediately.
-						</h3>
-						<Link
-							className='btn btn-success'
-							style={{fontSize: '30px', marginTop: '30px', color: 'white'}}
-							to={'/addplaylist'}
-						>
-							Add A Playlist
-						</Link>
-					</div>
-				);
-			}
-		}
+		if (loading) return loadingScreen();
 
 		return (
 			<div
@@ -114,7 +83,3 @@ export class Playlists extends React.Component {
 		);
 	}
 }
-
-Playlists.propTypes = {
-	searchValue: PropTypes.string,
-};
