@@ -1,9 +1,13 @@
 node_modules
-auth_options.py
+result.txt
+db_auth.*
+auth_options.*
 nohup.out
 package-lock.json
 yarn.lock
 bootstrap-custom
+pid
+log
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

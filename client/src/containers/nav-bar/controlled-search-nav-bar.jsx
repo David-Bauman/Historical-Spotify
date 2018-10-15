@@ -1,7 +1,7 @@
 import React from 'react';
-import {NavBar} from '.';
 import {fetchSearchablePlaylists} from './../../services/api';
 import {loadingScreen} from './../../constants/functions';
+import {NavBar} from '.';
 
 export class ControlledSearchNavBar extends React.Component {
 	constructor(props) {
@@ -38,8 +38,8 @@ export class ControlledSearchNavBar extends React.Component {
 		return (
 			<NavBar onSearch={this.onSearch}>
 				<ul style={{listStyle: 'none', paddingLeft: '0'}}>
-					{playlists.map(item =>
-						<li key={item.name} className='searched-playlist-container'>
+					{playlists.map((item, index) =>
+						<li key={item.name + index} className='searched-playlist-container'>
 							<a href={`/playlist/${item.id}`} className='searched-playlist'>
 								<img style={{width: '50%'}} src={item.imageURL}	alt='playlist cover' />
 								<p style={{display: 'inline', marginLeft: '5px'}}>{item.name}</p>

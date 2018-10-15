@@ -99,13 +99,15 @@ class AddPlaylist extends React.Component {
 							{(!loading && !newPlaylist) &&
 							<div style={{padding: '0', marginRight: 'auto', marginLeft: 'auto'}}>
 								<input
+									autoFocus
 									onChange={e => this.setInput(e.target.value)}
-									placeholder='Spotify URI or Playlist Link'
+									placeholder='Enter a Spotify URI or playlist link'
 									style={{
 										background: 'rgba(0, 0, 0, .5)',
 										border: 'rgba(0, 0, 0, .5)',
-										color: '#fff',
-										fontSize: '40px',
+										color: 'white',
+										fontSize: '20px',
+										height: '40px',
 										width: '100%',
 									}}
 									value={input}
@@ -115,7 +117,7 @@ class AddPlaylist extends React.Component {
 								</button>
 								<div style={{marginTop: '20px'}}>
 									<h3 style={{color: 'white', textDecoration: 'underline'}}>
-										Where to find the Spotify URI or Playlist Link
+										Where to find the Spotify URI or playlist link
 									</h3>
 									<img
 										alt={'Spotify Playlist with \'Copy Playlist Link\' and \'Copy Spotify URI\' highlighted'}

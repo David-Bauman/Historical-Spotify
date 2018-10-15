@@ -1,10 +1,10 @@
 import React from 'react';
-import {NavBar} from './../../containers';
 import {GradientBackground} from './../../components';
+import {NavBar} from './../../containers';
 import {Playlists} from './playlists';
 
 class Home extends React.Component {
-	constructor(props){
+	constructor(props) {
 		super(props);
 		this.state = {
 			searchValue: '',

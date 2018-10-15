@@ -1,7 +1,3 @@
-"""
-Does no type/path checking. Do that in node/front end.
-"""
-
 from mysql.connector import connect
 from requests import post, get
 from datetime import datetime

@@ -1,10 +1,7 @@
-const mysql = require('mysql');
+const connect = require('./../db_auth').connect;
 
 const getPlaylists = () => {
-	const connection = mysql.createConnection({
-		host: 'localhost',
-		user: 'root',
-	});
+    const connection = connect();
 	return new Promise((resolve, reject) => {
 		connection.connect(err => {
 			if (err) reject(err);
@@ -20,11 +17,7 @@ const getPlaylists = () => {
 };
 
 const getMostRecentPlaylist = ({id}) => {
-	const connection = mysql.createConnection({
-		host: 'localhost',
-		multipleStatements: true,
-		user: 'root',
-	});
+    const connection = connect();
 	return new Promise((resolve, reject) => {
 		connection.connect(err => {
 			if (err) reject(err);
@@ -58,11 +51,7 @@ const getMostRecentPlaylist = ({id}) => {
 };
 
 const getHistoricalPlaylist = ({id, date}) => {
-	const connection = mysql.createConnection({
-		host: 'localhost',
-		multipleStatements: true,
-		user: 'root',
-	});
+    const connection = connect();
 	return new Promise((resolve, reject) => {
 		connection.connect(err => {
 			if (err) reject(err);
@@ -89,5 +78,5 @@ const getHistoricalPlaylist = ({id, date}) => {
 module.exports = {
 	getMostRecentPlaylist: getMostRecentPlaylist,
 	getHistoricalPlaylist: getHistoricalPlaylist,
-	getPlaylists: getPlaylists
+	getPlaylists: getPlaylists,
 };

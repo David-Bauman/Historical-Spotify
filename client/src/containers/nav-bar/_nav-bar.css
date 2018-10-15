@@ -26,11 +26,16 @@
 
 .nav-item {
     border: 0;
+    color: inherit;
     display: inline-block;
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.nav-item:hover {
+    color: white;
 }
 
 .nav-item-icon {

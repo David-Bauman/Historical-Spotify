@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {UserInfo} from './..';
 import './_nav-bar.css';
@@ -36,33 +37,31 @@ export class NavBar extends React.Component {
 						<li>
 							<div
 								className='nav-item-container'
-								onClick={() => window.location.href = '/'}
 								style={{cursor: 'pointer'}}
 							>
-								<a className='nav-item'>
+								<Link className='nav-item' to='/'>
 									<span>
 										Home
 									</span>
 									<div className='nav-item-icon'>
-										<i className='make-favicon fas fa-home' />
+										<i className='fas fa-home' />
 									</div>
-								</a>
+								</Link>
 							</div>
 						</li>
 						<li>
 							<div
 								className='nav-item-container'
-								onClick={() => window.location.href = '/addplaylist'}
 								style={{cursor: 'pointer'}}
 							>
-								<a className='nav-item'>
+								<Link className='nav-item' to='/addplaylist'>
 									<span>
 										Add a Playlist
 									</span>
 									<div className='nav-item-icon'>
 										<i className='fas fa-plus' />
 									</div>
-								</a>
+								</Link>
 							</div>
 						</li>
 						<li>

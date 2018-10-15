@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 from requests import post, get
 from datetime import datetime
 from auth_options import payload, headers, url, connect_database
@@ -5,7 +7,7 @@ from description_fixer import description_fixer
 
 cnx = connect_database()
 cursor = cnx.cursor()
-print_everything=False
+print_everything = False
 
 
 def main(print_it=False):
@@ -56,12 +58,13 @@ def update_playlist(endpoint, auth):
     image = info["images"][0]["url"]
     playlist_info = (now, info["snapshot_id"], info["followers"]["total"], description, image, song_ids)
     global cursor, cnx, print_everything
-    cursor.execute("SELECT songIds FROM hs_playlists." + id +
+    cursor.execute("SELECT songIds, description, imageURL FROM hs_playlists." + id +
                    " WHERE timestamp=(SELECT MAX(timestamp) FROM hs_playlists." + id + ")")
 
     affected = [None]
     current = cursor.fetchall()
-    if not len(current) or current[0][0] != song_ids:
+    print(current)
+    if not len(current) or current[0][0] != song_ids or current[0][1] != description or current[0][2] != image:
         affected = []
         playlist_query = "INSERT INTO hs_playlists.%s VALUES %s;" % (id, playlist_info)
         cursor.execute(playlist_query)
@@ -87,3 +90,5 @@ if __name__ == "__main__":
     start_time = time()
     main()
     print("Updating playlists took %.2f seconds" % float(time() - start_time))
+else:
+    print("fuck")

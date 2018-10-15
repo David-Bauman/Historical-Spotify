@@ -9,7 +9,7 @@ const query = `
 			imageURL
 			views
 			id
-  	}
+  	    }
 	}
 `;
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {playSong} from './../../../services/api';
 import './songs.css';
 
 const msToMinuteSeconds = ms => {
@@ -15,6 +16,7 @@ export class Song extends React.Component {
 			hover: false
 		};
 		this.changeHover = this.changeHover.bind(this);
+        this.play = this.play.bind(this);
 	}
 
 	changeHover(truthiness) {
@@ -22,6 +24,10 @@ export class Song extends React.Component {
 			hover: truthiness
 		});
 	}
+
+    play() {
+        playSong(`spotify:track:${this.props.song.songId}`, window.player);
+    }
 
 	render() {
 		const {song, id, datePickerOpen} = this.props;
@@ -36,7 +42,7 @@ export class Song extends React.Component {
 				<div style={{width: '3.5em', paddingRight: '1em', textAlign: 'right'}}>
 					<div style={{marginTop: '0.75em', color: 'white'}}>
 						{(!hover || datePickerOpen) && id}
-						{(hover && !datePickerOpen) && <i className='fas fa-play-circle' style={{fontSize: '24px'}} />}
+						{(hover && !datePickerOpen) && <i className='fas fa-play-circle' onClick={this.play} style={{fontSize: '24px'}} />}
 					</div>
 				</div>
 				<div style={{flex: '1', textAlign: 'left', overflow: 'hidden', display: 'block'}}>
@@ -88,5 +94,5 @@ export class Song extends React.Component {
 Song.propTypes = {
 	datePickerOpen: PropTypes.bool,
 	id: PropTypes.number,
-	songs: PropTypes.arrayOf(PropTypes.obj),
+	song: PropTypes.obj
 };

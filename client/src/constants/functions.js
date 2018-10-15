@@ -10,7 +10,7 @@ export const loadingScreen = (height = 50, textAlign = 'center', style={}) => (
 export function cleanDatesFromAPI(dates) {
 	let possibles = [];
 	for (let i = 0; i < dates.length; i++) {
-		possibles[i] = moment(dates[i], 'ddd MMM DD YYYY HH:mm:ss Z');
+		possibles[i] = moment(parseInt(dates[i], 10));
 	}
 	return possibles;
 }

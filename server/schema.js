@@ -7,7 +7,7 @@ const schema = buildSchema(`
 			link: String!
 		): PlaylistOverview
 	}
-	
+
   type Query {
     "Specific playlist information at time 'date'"
     historicalPlaylist(
@@ -24,7 +24,7 @@ const schema = buildSchema(`
     "General overview information"
     playlists: [PlaylistOverview]
   },
-  
+
   type SpecificPlaylist {
     "YYYY-MM-DD HH:MM:SS strings of times where this playlist has information"
     possibleDates: [String!]
@@ -32,7 +32,7 @@ const schema = buildSchema(`
     overview: PlaylistOverview
     songs: [Song!]
   },
-    
+
   type PlaylistOverview {
     "YYYY-MM-DD format"
     createDate: String
@@ -42,9 +42,9 @@ const schema = buildSchema(`
     name: String
     user: String
     "Drop views after testing order by works as supposed to?"
-    views: Int 
+    views: Int
   },
-  
+
   type Song {
     album: String
     artists: String

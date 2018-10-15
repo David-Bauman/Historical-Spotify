@@ -6,14 +6,14 @@
   "author": "David Bauman",
   "license": "MIT",
   "dependencies": {
-    "apollo-server-express": "^1.4.0",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "express-graphql": "^0.6.12",
-    "graphql": "^0.13.2",
+    "graphql": "^14.0.2",
+    "https": "^1.0.0",
     "moment": "^2.22.2",
     "mysql": "^2.16.0",
-    "nodemon": "^1.18.3",
-    "request": "^2.87.0"
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2"
   }
 }

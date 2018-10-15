@@ -3,21 +3,32 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "ajv": "^6.5.4",
     "axios": "^0.18.0",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
-    "react": "^16.4.1",
-    "react-dates": "^17.1.1",
-    "react-dom": "^16.4.1",
+    "query-string": "^6.2.0",
+    "react": "^16.5.2",
+    "react-cookie": "^3.0.4",
+    "react-dates": "^18.1.1",
+    "react-dom": "^16.5.2",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.4",
-    "react-toastify": "^4.1.0"
+    "react-scripts": "^2.0.5",
+    "react-toastify": "^4.4.0",
+    "stringquery": "^1.0.8"
   },
+  "homepage": "https://bauman.zapto.org/HistoricalPlaylists",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

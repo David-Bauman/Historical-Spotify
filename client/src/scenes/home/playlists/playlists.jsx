@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import {loadingScreen} from './../../../constants/functions';
@@ -13,11 +14,11 @@ export class Playlists extends React.Component {
 			loading: true,
 			playlists: [],
 		};
-		this.fetchPlaylists = this.fetchPlaylists.bind(this);
-		this.fetchPlaylists();
+		this.getPlaylists = this.getPlaylists.bind(this);
+		this.getPlaylists();
 	}
 
-	fetchPlaylists() {
+	getPlaylists() {
 		fetchPlaylists().then(response => {
 			this.setState({
 				loading: false,
@@ -36,13 +37,12 @@ export class Playlists extends React.Component {
 		if (error) {
 			return (
 				<div className='alert text-center' style={{marginTop: '50px'}}>
-					<h3>
+					<h3 style={{color: '#FEFEFA'}}>
 						Seems like we can't connect to the server. Try reloading the page.
 					</h3>
 				</div>
 			);
 		}
-
 		if (loading)
 			return loadingScreen();
 
@@ -63,13 +63,13 @@ export class Playlists extends React.Component {
 							Seems like we don't have a playlist that matches '{searchValue}'.
 							Add the playlist you're looking for and we'll start collecting data immediately.
 						</h3>
-						<a
+						<Link
 							className='btn btn-success'
 							style={{fontSize: '30px', marginTop: '30px', color: 'white'}}
-							href={'/addplaylist'}
+							to={'/addplaylist'}
 						>
 							Add A Playlist
-						</a>
+						</Link>
 					</div>
 				);
 			}
@@ -86,30 +86,30 @@ export class Playlists extends React.Component {
 					marginRight: '-10px'
 				}}
 			>
-				{playlists.map(playlist =>
+				{playlists.map(playlist => 
 					<div className='col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2' key={playlist.id}>
 						<div style={{position: 'relative', paddingBottom: '2em', maxWidth: '400px'}}>
 							<div>
 								<div style={{display: 'inline'}}>
-									<a className='cover-image-container' href={`/playlist/${playlist.id}`}>
+									<Link className='cover-image-container' to={`/playlist/${playlist.id}`}>
 										<div className='cover-image' style={{backgroundImage: `url(${playlist.imageURL})`}} />
-									</a>
+									</Link>
 								</div>
 								<div className='playlist-title-container' style={{color: 'white'}}>
-									<a className='playlist-title' href={`/playlist/${playlist.id}`}>
+									<Link className='playlist-title' to={`/playlist/${playlist.id}`}>
 										{playlist.name}
-									</a>
-									<p>
+									</Link>
+									<p style={{color: 'lightgray'}}>
 										{playlist.description}
 									</p>
 									<p>
-										{moment(new Date(playlist.createDate).toISOString()).fromNow(true)} of data
+										{moment(parseInt(playlist.createDate, 10)).fromNow(true)} of data
 									</p>
 								</div>
 							</div>
 						</div>
 					</div>
-				)}
+                )}
 			</div>
 		);
 	}
