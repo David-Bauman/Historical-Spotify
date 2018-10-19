@@ -1,0 +1,29 @@
+#playing-bar-container {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  background: #3d3d3d;
+  z-index: 100;
+}
+
+#playing-bar {
+  align-items: center;
+  height: 80px;
+  padding: 0 16px;
+  display: flex;
+}
+
+#currently-playing, #track-controls, #volume-control {
+  width: 33%;
+}
+
+#currently-playing {
+  display: flex;
+}
+
+#currently-playing div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+}

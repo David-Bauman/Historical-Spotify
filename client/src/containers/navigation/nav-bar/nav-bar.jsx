@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {UserInfo} from './..';
+import {UserInfo} from './../user-info';
 import './_nav-bar.css';
 
 export class NavBar extends React.Component {
@@ -94,7 +94,7 @@ export class NavBar extends React.Component {
 						</li>
 					</ul>
 					{this.props.children}
-					<UserInfo />
+					<UserInfo onCreatePlayer={this.props.onCreatePlayer} />
 				</nav>
 			</div>
 

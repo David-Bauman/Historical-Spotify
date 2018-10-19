@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {toast} from 'react-toastify';
 import {playSong} from './../../../services/api';
-import './songs.css';
+import './_songs.css';
 
 const msToMinuteSeconds = ms => {
 	const minutes = Math.floor(ms / 60000);
@@ -41,7 +41,7 @@ export class Song extends React.Component {
 				className='song-container'
 				onMouseEnter={() => this.changeHover(true)}
 				onMouseLeave={() => this.changeHover(false)}
-				style={{background: hover && !datePickerOpen ? 'rgba(0, 0, 0, .55)' : 'inherit'}}
+				style={{background: hover && !datePickerOpen ? 'rgba(0, 0, 0, .6)' : 'inherit'}}
 			>
 				<div style={{width: '3.5em', paddingRight: '1em', textAlign: 'right'}}>
 					<div style={{marginTop: '0.75em', color: 'white'}}>

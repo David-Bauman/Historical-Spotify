@@ -153,7 +153,7 @@ class Playlist extends React.Component {
 						<div className='col-xs-12 col-lg-9 col-xl-8'>
 							{loading && loadingScreen()}
 							{!loading &&
-							<ul style={{listStyle: 'none', marginBottom: '2em', paddingLeft: '0'}}>
+							<ul style={{listStyle: 'none', marginBottom: '100px', paddingLeft: '0'}}>
 								{songs.map((song, i) =>
 									<Song song={song} id={i + 1} key={i + 1} datePickerOpen={datePickerOpen} />
 								)}
