@@ -5,47 +5,70 @@ import qs from 'stringquery';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {withCookies} from 'react-cookie';
-import {getUserAuth, getInitialAccessToken, getUserName} from './../../../services/api';
+import {getUserAuth, getInitialAccessToken, refreshAccessToken, getUserName} from './../../../services/api';
 import {updatePlaying} from './../../../actions/playing';
 
 class userInfo extends React.Component {
   constructor(props) {
     super(props);
     this.createPlayer = this.createPlayer.bind(this);
-    this.state = {};
     const params = qs(this.props.location.search);
-    if (params.code) {
-      getInitialAccessToken(params.code).then(res => {
-        props.cookies.set('HS-client-access', res.data.access_token, {maxAge: 3600});
-        props.cookies.set('HS-client-refresh', res.data.refresh_token);
-        this.setState({access: res.data.access_token, refresh: res.data.refresh_token});
-        this.createPlayer();
-      }); 
-    } else {
-      this.state = {
-        access: props.cookies.get('HS-client-access'),
-        refresh: props.cookies.get('HS-client-refresh')
-      }
-      if (props.cookies.get('HS-client-access')) this.createPlayer();
-    }
+    if (params.code || props.cookies.get('HS-client-access') || props.cookies.get('HS-client-refresh')) {
+      this.state = {code: params.code};
+      this.createPlayer();
+    } else 
+      this.state = {};
   }
 
   createPlayer() {
     if (window.Spotify) {
-      const access = this.state.access;
+      const code = this.state.code;
       const options = {
-        getOAuthToken: cb => {cb(access)},
-        name: 'Historical Spotify Playlists Player',
+        getOAuthToken: cb => {
+          const access = this.props.cookies.get('HS-client-access');
+          const refresh = this.props.cookies.get('HS-client-refresh');
+          if (access) {
+            console.log('Got access token from cookies');
+            return cb(access);
+          } else if (refresh) {
+            refreshAccessToken(refresh).then(res => {
+              this.props.cookies.set('HS-client-access', res.data.access_token, {maxAge: 3600});
+              console.log('Got access token from the cookie\'d refresh token');
+              return cb(res.data.access_token);
+            });
+          } else if (code) {
+            getInitialAccessToken(code).then(res => {
+              this.props.cookies.set('HS-client-access', res.data.access_token, {maxAge: 3600});
+              this.props.cookies.set('HS-client-refresh', res.data.refresh_token);
+              console.log('Got access and refresh tokens from the query code');
+              return cb(res.data.access_token);
+            });
+          } else {
+            console.error('wtf, in createPlayer', access, refresh, code);
+            toast.error('Something went wrong with Spotify\'s authorization.');
+            return cb('');
+          }
+        },
+        name: 'Historical Spotify Playlists Player'
       };
       this.player = new window.Spotify.Player(options);
-      this.player.addListener('player_state_changed', (SDKObj) => this.props.updateSDK(SDKObj));
-      this.player.addListener('account_error',() => {toast.error('A Spotify Premium account is required to play songs.')});
+      this.player.on('player_state_changed', (SDKObj) => this.props.updateSDK(SDKObj));
+      this.player.on('authentication_error', ({message}) => {
+        console.error('Failed to authenticate', message);
+      });
+      this.player.on('account_error',() => {toast.error('A Spotify Premium account is required to play songs.')});
+
       window.player = this.player;
-      this.player.connect().then(this.props.onCreatePlayer);
-      getUserName(access).then(res => this.setState({user: {name: res.data.display_name, image: res.data.images[0]}}));
-    } else {
+      this.player.connect().then(bool => {
+        if (bool) {
+          const access = this.props.cookies.get('HS-client-access');
+          getUserName(access).then(res => 
+            this.setState({user: {name: res.data.display_name, image: res.data.images[0]}})
+          );
+        } else {console.error('trouble connecting');}
+      });
+    } else
       setTimeout(this.createPlayer, 500);
-    }
   }
 
   componentWillUnmount() {
@@ -56,7 +79,7 @@ class userInfo extends React.Component {
     const user = this.state.user;
     if (user) 
       return (
-      <div style={{position: 'absolute', borderTop: '1px solid gray', bottom: `${user ? 100 : 25}px`, alignSelf: 'center', fontSize: '18px', width: '80%', textAlign: 'center', paddingTop: '15px'}}>
+      <div style={{position: 'absolute', borderTop: '1px solid gray', bottom: `${this.props.current === '' ? 25 : 100}px`, alignSelf: 'center', fontSize: '18px', width: '80%', textAlign: 'center', paddingTop: '15px'}}>
         {user.image && <img src={user.image.url} alt={'user\'s avatar'} style={{width: '30px', height: '30px', display: 'inline-block'}} />}
         <span>{user.name}</span>
       </div>
@@ -76,10 +99,9 @@ class userInfo extends React.Component {
   }
 }
 
-
 const mapStateToProps = state => {
   return {
-    player: state.player
+    current: state.playing.id
   }
 };
 

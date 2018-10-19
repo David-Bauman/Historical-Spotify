@@ -68,10 +68,10 @@ export class Playlists extends React.Component {
 									<Link className='playlist-title' to={`/playlist/${playlist.id}`}>
 										{playlist.name}
 									</Link>
-									<p style={{color: 'lightgray'}}>
+									<p className='home-playlist-description'>
 										{playlist.description}
 									</p>
-									<p>
+									<p className='playlist-data-time'>
 										{moment(parseInt(playlist.createDate, 10)).fromNow(true)} of data
 									</p>
 								</div>

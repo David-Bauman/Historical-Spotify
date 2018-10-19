@@ -43,3 +43,14 @@
     text-transform: none;
     max-height: 560px;
 }
+
+.home-playlist-description {
+    color: lightgray;
+}
+
+@media(max-width: 574px) {
+    .playlist-data-time, .home-playlist-description {
+        display: none;
+    }
+}
+

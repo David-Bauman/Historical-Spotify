@@ -13,17 +13,77 @@
   display: flex;
 }
 
-#currently-playing, #track-controls, #volume-control {
-  width: 33%;
+#currently-playing, #volume-control {
+  width: 27.5%;
+}
+
+#track-controls {
+  width: 45%;
 }
 
 #currently-playing {
   display: flex;
 }
 
-#currently-playing div {
+#currently-playing p, #currently-playing > div {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 14px;
 }
+
+#track-controls-buttons {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+#track-controls-buttons > i {
+  cursor: pointer;
+  color: hsla(0,0%,100%,.6);
+  font-size: 30px;
+}
+
+#seek-bar {
+  width: 100%;
+  display: flex;
+}
+
+.seek-bar-time {
+  font-size: 10px;
+  text-align: center;
+  min-width: 40px;
+  color: hsla(0,0%,100%,.6);
+}
+
+.progress-bar-container {
+  height: 10px;
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+}
+
+.progress-bar-back {
+  position: absolute;
+  top: 50%;
+  background-color: #333333;
+  width: 100%;
+}
+
+.progress-bar-front {
+  background-color: lightgray;
+  height: 4px;
+}
+
+#volume-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#volume-control > i {
+  color: hsla(0,0%,100%,.6);
+  font-size: 16px;
+  margin-top: 4px;
+}
+

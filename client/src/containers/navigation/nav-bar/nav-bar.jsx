@@ -40,9 +40,7 @@ export class NavBar extends React.Component {
 								style={{cursor: 'pointer'}}
 							>
 								<Link className='nav-item' to='/'>
-									<span>
-										Home
-									</span>
+									Home
 									<div className='nav-item-icon'>
 										<i className='fas fa-home' />
 									</div>
@@ -55,9 +53,7 @@ export class NavBar extends React.Component {
 								style={{cursor: 'pointer'}}
 							>
 								<Link className='nav-item' to='/addplaylist'>
-									<span>
-										Add a Playlist
-									</span>
+									Add a Playlist
 									<div className='nav-item-icon'>
 										<i className='fas fa-plus' />
 									</div>
@@ -66,7 +62,7 @@ export class NavBar extends React.Component {
 						</li>
 						<li>
 							<div className='nav-item-container' onClick={() => this.updateSearching(true)}>
-								<a className='nav-item'>
+								<span className='nav-item'>
 									{!searching &&
 									<span style={{cursor: 'pointer'}}>
 										Search
@@ -89,12 +85,12 @@ export class NavBar extends React.Component {
 									<div className='nav-item-icon' style={{cursor: 'pointer'}}>
 										<i className='fas fa-search' />
 									</div>
-								</a>
+								</span>
 							</div>
 						</li>
 					</ul>
 					{this.props.children}
-					<UserInfo onCreatePlayer={this.props.onCreatePlayer} />
+					<UserInfo />
 				</nav>
 			</div>
 

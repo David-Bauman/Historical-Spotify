@@ -106,7 +106,7 @@ class Playlist extends React.Component {
 			<div className='information-container'>
 				<div className='spaced' style={{paddingTop: '1.5em'}}>
 					<div className='row'>
-						<div className='col-xs-12 col-lg-3 col-xl-4'>
+						<div className='col-xs-12 col-xl-4'>
 							<div className='playlist-header'>
 								<div className='cover-image-selectable'>
 									<div style={{display: 'inline'}}>

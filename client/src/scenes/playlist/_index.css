@@ -1,4 +1,4 @@
-@media (max-height:670px) {
+@media (max-width:1199px) {
   .playlist-description {
     display: none;
   }

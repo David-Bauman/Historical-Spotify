@@ -7,6 +7,12 @@ export const loadingScreen = (height = 50, textAlign = 'center', style = {}) => 
 	</div>
 );
 
+export const msToMinuteSeconds = ms => {
+	const minutes = Math.floor(ms / 60000);
+	const seconds = ((ms % 60000) / 1000).toFixed(0);
+	return parseInt(seconds, 10) === 60 ? minutes + 1 + ':00' : minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+};
+
 export function cleanDatesFromAPI(dates) {
 	let possibles = [];
 	for (let i = 0; i < dates.length; i++) {

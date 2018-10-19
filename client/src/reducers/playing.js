@@ -6,21 +6,24 @@ const INITAL_STATE = {
   artists: '',
   duration: 0,
   imageURL: '',
-  position: 0
+  paused: false,
+  position: 0,
+  volume: 1
 };
 
 export default function(state = INITAL_STATE, action) {
   switch(action.type) {
     case SDKStateChanged:
       const current = action.state.track_window.current_track;
-      if (currentid == state.id)
-        return {...state, position: action.state.position};
+      if (current.id === state.id)
+        return {...state, position: action.state.position, paused: action.state.paused};
       return {
         id: current.id,
         name: current.name,
         artists: createArtists(current.artists),
         duration: action.state.duration,
-        imageURL: getImageURL(current.album.images)
+        imageURL: getImageURL(current.album.images),
+        paused: action.state.paused,
         position: 0,
       };
     default:

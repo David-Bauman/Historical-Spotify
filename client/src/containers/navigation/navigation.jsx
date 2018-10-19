@@ -10,12 +10,10 @@ export class Navigation extends React.Component {
 		super(props);
 		this.state = {
 			loading: false,
-            player: false,
 			playlists: [],
 			searchVal: ''
 		};
 		this.onSearch = this.onSearch.bind(this);
-        this.onCreatePlayer = this.onCreatePlayer.bind(this);
 	}
 
 	onSearch(val) {
@@ -31,15 +29,11 @@ export class Navigation extends React.Component {
 		});
 	}
 
-    onCreatePlayer() {
-        this.setState({player: true});
-    }
-
 	render() {
-		const {loading, playlists, searchVal, player} = this.state;
+		const {loading, playlists, searchVal} = this.state;
 		return (
             <Fragment>
-            <NavBar onSearch={this.onSearch} onCreatePlayer={this.onCreatePlayer}>
+            <NavBar onSearch={this.onSearch}>
             {loading && loadingScreen()}
             {(!loading && (playlists.length && searchVal.length > 1)) ?
 			<ul style={{listStyle: 'none', paddingLeft: '0'}}>
@@ -55,7 +49,7 @@ export class Navigation extends React.Component {
             : null
             }
             </NavBar>
-            <PlayingBar player={player} />
+            <PlayingBar />
             </Fragment>
         );
 	}

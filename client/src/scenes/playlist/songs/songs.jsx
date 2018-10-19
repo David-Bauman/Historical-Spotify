@@ -2,13 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {toast} from 'react-toastify';
 import {playSong} from './../../../services/api';
+import {msToMinuteSeconds} from './../../../constants/functions';
 import './_songs.css';
-
-const msToMinuteSeconds = ms => {
-	const minutes = Math.floor(ms / 60000);
-	const seconds = ((ms % 60000) / 1000).toFixed(0);
-	return parseInt(seconds, 10) === 60 ? minutes + 1 + ':00' : minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-};
 
 export class Song extends React.Component {
 	constructor(props) {
@@ -28,7 +23,9 @@ export class Song extends React.Component {
 
     play() {
         if (window.player)
-            playSong(`spotify:track:${this.props.song.songId}`, window.player);
+            playSong(`spotify:track:${this.props.song.songId}`, window.player).catch(err => {
+                if (err.message && err.message.includes('403')) toast.error('You must be a Spotify Premium user to play songs.');
+            });
         else
             toast.error('You need to be logged in to a Spotify Premium account to play songs.');
     }

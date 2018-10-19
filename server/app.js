@@ -44,6 +44,21 @@ app.post('/codeToToken', (req, res) => {
   }).then(data => res.json(data)).catch(err => console.log(err));
 });
 
+app.post('/refreshToken', (req, res) => {
+  rp({
+    method: 'POST',
+    uri: 'https://accounts.spotify.com/api/token',
+    json: true,
+    form: {
+      'refresh_token': req.body.code,
+      'grant_type': 'refresh_token',
+    },
+    headers: {
+      'Authorization': `Basic ${Buffer.from(`${clientID}:${clientSecret}`).toString('base64')}`
+    }
+  }).then(data => res.json(data)).catch(err => console.log(err));
+});
+
 app.use('/graphql', express_graphql({
   schema: schema,
   rootValue: rootResolver,
