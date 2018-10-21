@@ -1,10 +1,10 @@
 import React from 'react';
 import {withRouter} from 'react-router';
 import {toast} from 'react-toastify';
-import qs from 'stringquery';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import {withCookies} from 'react-cookie';
+import {bindActionCreators} from 'redux';
+import qs from 'stringquery';
 import {getUserAuth, getInitialAccessToken, refreshAccessToken, getUserName} from './../../../services/api';
 import {updatePlaying} from './../../../actions/playing';
 
@@ -12,12 +12,22 @@ class userInfo extends React.Component {
   constructor(props) {
     super(props);
     this.createPlayer = this.createPlayer.bind(this);
+    this.createUser = this.createUser.bind(this);
     const params = qs(this.props.location.search);
     if (params.code || props.cookies.get('HS-client-access') || props.cookies.get('HS-client-refresh')) {
       this.state = {code: params.code};
       this.createPlayer();
     } else 
       this.state = {};
+  }
+
+  createUser() {
+    if (!this.state.user) {
+      const access = this.props.cookies.get('HS-client-access');
+      getUserName(access).then(res => 
+        this.setState({user: {name: res.data.display_name, image: res.data.images[0]}})
+      );
+    }
   }
 
   createPlayer() {
@@ -29,11 +39,13 @@ class userInfo extends React.Component {
           const refresh = this.props.cookies.get('HS-client-refresh');
           if (access) {
             console.log('Got access token from cookies');
+            this.createUser();
             return cb(access);
           } else if (refresh) {
             refreshAccessToken(refresh).then(res => {
               this.props.cookies.set('HS-client-access', res.data.access_token, {maxAge: 3600});
               console.log('Got access token from the cookie\'d refresh token');
+              this.createUser();
               return cb(res.data.access_token);
             });
           } else if (code) {
@@ -41,6 +53,7 @@ class userInfo extends React.Component {
               this.props.cookies.set('HS-client-access', res.data.access_token, {maxAge: 3600});
               this.props.cookies.set('HS-client-refresh', res.data.refresh_token);
               console.log('Got access and refresh tokens from the query code');
+              this.createUser();
               return cb(res.data.access_token);
             });
           } else {
@@ -59,14 +72,7 @@ class userInfo extends React.Component {
       this.player.on('account_error',() => {toast.error('A Spotify Premium account is required to play songs.')});
 
       window.player = this.player;
-      this.player.connect().then(bool => {
-        if (bool) {
-          const access = this.props.cookies.get('HS-client-access');
-          getUserName(access).then(res => 
-            this.setState({user: {name: res.data.display_name, image: res.data.images[0]}})
-          );
-        } else {console.error('trouble connecting');}
-      });
+      this.player.connect();
     } else
       setTimeout(this.createPlayer, 500);
   }

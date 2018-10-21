@@ -10,6 +10,12 @@
   min-height: 0 !important;
 }
 
+@media(max-width: 574px) {
+    .information-container {
+        padding-left: 150px;
+    }
+}
+
 .spaced {
   padding: 0 2em;
   margin: 0 auto;

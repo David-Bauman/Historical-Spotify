@@ -117,7 +117,7 @@ class AddPlaylist extends React.Component {
 							<img
 								alt={'Spotify Playlist with \'Copy Playlist Link\' and \'Copy Spotify URI\' highlighted'}
 								src={picture}
-								style={{marginBottom: '20px'}}
+								style={{marginBottom: '90px'}}
 							/>
 						</div>
 					</div>
