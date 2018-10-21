@@ -8,8 +8,8 @@ const getPlaylists = () => {
 			connection.query(
 				'SELECT id, name, description, imageURL, views, createDate FROM hs_playlists.general ORDER BY views DESC;',
 				(err, result) => {
-					if (err) reject(err);
                     connection.end();
+				    if (err) reject(err);
 					resolve(result);
 				}
 			);
@@ -23,28 +23,35 @@ const getMostRecentPlaylist = ({id}) => {
 		connection.connect(err => {
 			if (err) reject(err);
 
-			const songIdsQuery = 'SELECT songIds FROM hs_playlists.' + id +
-				' WHERE timestamp=(SELECT MAX(timestamp) FROM hs_playlists.' + id + ');';
+            const escapedPlaylistId = connection.escapeId('hs_playlists.' + id);
+            const escapedSongId = connection.escapeId('hs_songs.' + id);
+            const escapedId = connection.escape(id);
+
+			const songIdsQuery = 'SELECT songIds FROM ' + escapedPlaylistId +
+				' WHERE timestamp=(SELECT MAX(timestamp) FROM ' + escapedPlaylistId + ');';
 
 			connection.query(songIdsQuery, (err, result) => {
-				if (err) reject(err);
-				const ids = result[0]['songIds'].split(',');
+				if (err) {
+                    connection.end();
+                    reject(err);
+                }
+				const escapedIds = connection.escape(result[0]['songIds'].split(','));
 
-				const songsQuery = 'SELECT * FROM hs_songs.' + id + ' WHERE songId IN (?) ORDER BY FIELD (songId, ?);';
+				const songsQuery = 'SELECT * FROM ' + escapedSongId + ' WHERE songId IN (' + escapedIds + ') ORDER BY FIELD (songId, ' + escapedIds + ');';
 
-				const generalInfoQuery = 'SELECT name, description, imageURL, user FROM hs_playlists.general WHERE id=\'' + id + '\';';
+				const generalInfoQuery = 'SELECT name, description, imageURL, user FROM hs_playlists.general WHERE id=' + escapedId + ';';
 
-				const potentialDatesQuery = 'SELECT timestamp FROM hs_playlists.' + id + ' ORDER BY timestamp DESC;';
+				const potentialDatesQuery = 'SELECT timestamp FROM ' + escapedPlaylistId + ' ORDER BY timestamp DESC;';
 
-				const pageViewsUpdate = 'UPDATE hs_playlists.general SET views=views+1 WHERE id=\'' + id + '\';';
+				const pageViewsUpdate = 'UPDATE hs_playlists.general SET views=views+1 WHERE id=' + escapedId + ';';
 
-				connection.query(songsQuery + generalInfoQuery + potentialDatesQuery + pageViewsUpdate, [ids, ids], (err, result) => {
-					if (err) reject(err);
+				connection.query(songsQuery + generalInfoQuery + potentialDatesQuery + pageViewsUpdate, (err, result) => {
+                    connection.end();
+				    if (err) reject(err);
 					let dates = [];
 					for (let i = 0; i < result[2].length; i++) {
 						dates.push(result[2][i]['timestamp']);
 					}
-                    connection.end();
 					resolve({songs: result[0], overview: result[1][0], possibleDates: dates});
 				});
 			});
@@ -58,19 +65,27 @@ const getHistoricalPlaylist = ({id, date}) => {
 		connection.connect(err => {
 			if (err) reject(err);
 
-			const songIdsQuery = 'SELECT songIds FROM hs_playlists.' + id + ' WHERE timestamp=\'' + date + '\';';
+            const escapedPlaylistId = connection.escapeId('hs_playlists.' + id);
+            const escapedSongId = connection.escapeId('hs_songs.' + id);
+            const escapedId = connection.escape(id);
+            const escapedDate = connection.escape(date);
+
+			const songIdsQuery = 'SELECT songIds FROM ' + escapedPlaylistId + ' WHERE timestamp=' + escapedDate + ';';
 
 			connection.query(songIdsQuery, (err, result) => {
-				if (err) reject(err);
-				const ids = result[0]['songIds'].split(',');
-
-				const songsQuery = 'SELECT * FROM hs_songs.' + id + ' WHERE songId IN (?) ORDER BY FIELD (songId, ?);';
-
-				const overviewQuery = 'SELECT description, imageURL FROM hs_playlists.' + id + ' WHERE timestamp=\'' + date + '\';';
-
-				connection.query(songsQuery + overviewQuery, [ids, ids], (err, result) => {
-					if (err) reject(err);
+				if (err) {
                     connection.end();
+                    reject(err);
+                }
+				const escapedIds = connection.escape(result[0]['songIds'].split(','));
+
+				const songsQuery = 'SELECT * FROM ' + escapedSongId + ' WHERE songId IN (' + escapedIds + ') ORDER BY FIELD (songId, ' + escapedIds + ');';
+
+				const overviewQuery = 'SELECT description, imageURL FROM ' + escapedPlaylistId + ' WHERE timestamp=' + escapedDate + ';';
+
+				connection.query(songsQuery + overviewQuery, (err, result) => {
+                    connection.end();
+					if (err) reject(err);
 					resolve({songs: result[0], overview: result[1][0]});
 				});
 			});
