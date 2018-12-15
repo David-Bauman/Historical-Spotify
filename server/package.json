@@ -6,12 +6,12 @@
   "author": "David Bauman",
   "license": "MIT",
   "dependencies": {
-    "cors": "^2.8.4",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
-    "express-graphql": "^0.6.12",
+    "express-graphql": "^0.7.1",
     "graphql": "^14.0.2",
     "https": "^1.0.0",
-    "moment": "^2.22.2",
+    "moment": "^2.23.0",
     "mysql": "^2.16.0",
     "request": "^2.87.0",
     "request-promise": "^4.2.2"
