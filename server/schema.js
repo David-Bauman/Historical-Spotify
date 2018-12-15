@@ -1,12 +1,24 @@
 const {buildSchema} = require('graphql');
 
 const schema = buildSchema(`
-	type Mutation {
-		addPlaylist(
-			"the link in format: @user/playlists/@id"
-			link: String!
-		): PlaylistOverview
-	}
+  type Mutation {
+	addPlaylist(
+	  "the link in format: @user/playlists/@id"
+	  link: String!
+	): PlaylistOverview
+    "returns URL for user to authorize spotify account"
+    userAuth: URL
+    "returns initial access token as well as a refresh token"
+    codeToToken(
+      "user token, gotten after user grants access from the userAuth url"
+      code: String!
+    ): Tokens
+    "returns a new access token"
+    refreshToken(
+      "the refresh code that was generated off the codeToToken endpoint"
+      code: String!
+    ): Tokens
+  },
 
   type Query {
     "Specific playlist information at time 'date'"
@@ -25,6 +37,15 @@ const schema = buildSchema(`
     playlists: [PlaylistOverview]
   },
 
+  type URL {
+    url: String
+  }
+
+  type Tokens {
+    access_token: String
+    refresh_token: String
+  }
+
   type SpecificPlaylist {
     "YYYY-MM-DD HH:MM:SS strings of times where this playlist has information"
     possibleDates: [String!]
@@ -41,7 +62,6 @@ const schema = buildSchema(`
     imageURL: String
     name: String
     user: String
-    "Drop views after testing order by works as supposed to?"
     views: Int
   },
 

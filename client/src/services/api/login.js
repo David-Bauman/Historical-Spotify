@@ -1,14 +1,36 @@
-import axios from 'axios';
+import {axiosInstance} from './../axios-instance';
 
 export function getUserAuth() {
-  return axios.get('https://bauman.zapto.org:4000/userAuthRedirect');
+  const mutation = `
+    mutation {
+      userAuth {
+        url
+      }
+    }
+  `;
+  return axiosInstance.post('', JSON.stringify({"query": mutation}));
 }
 
 export function getInitialAccessToken(code) {
-  return axios.post('https://bauman.zapto.org:4000/codeToToken', {code: code});
+  const mutation = `
+    mutation {
+      codeToToken(code: "${code}") {
+        refresh_token
+        access_token
+      }
+    }
+  `;
+  return axiosInstance.post('', JSON.stringify({"query": mutation}));
 }
 
 export function refreshAccessToken(code) {
-  return axios.post('https://bauman.zapto.org:4000/refreshToken', {code: code});
+  const mutation = `
+    mutation {
+      refreshToken(code: "${code}") {
+        access_token
+      }
+    }
+  `;
+  return axiosInstance.post('', JSON.stringify({"query": mutation}));
 }
 

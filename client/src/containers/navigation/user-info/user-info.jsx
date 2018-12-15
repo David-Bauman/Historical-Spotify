@@ -43,15 +43,15 @@ class userInfo extends React.Component {
             return cb(access);
           } else if (refresh) {
             refreshAccessToken(refresh).then(res => {
-              this.props.cookies.set('HS-client-access', res.data.access_token, {maxAge: 3600});
+              this.props.cookies.set('HS-client-access', res.data.data.refreshToken.access_token, {maxAge: 3600});
               console.log('Got access token from the cookie\'d refresh token');
               this.createUser();
               return cb(res.data.access_token);
             });
           } else if (code) {
             getInitialAccessToken(code).then(res => {
-              this.props.cookies.set('HS-client-access', res.data.access_token, {maxAge: 3600});
-              this.props.cookies.set('HS-client-refresh', res.data.refresh_token);
+              this.props.cookies.set('HS-client-access', res.data.data.codeToToken.access_token, {maxAge: 3600});
+              this.props.cookies.set('HS-client-refresh', res.data.data.codeToToken.refresh_token);
               console.log('Got access and refresh tokens from the query code');
               this.createUser();
               return cb(res.data.access_token);
@@ -95,7 +95,7 @@ class userInfo extends React.Component {
 	<div style={{position: 'absolute', width: '150px', alignSelf: 'center', bottom: '25px'}}>
 	  <button
         className='btn'
-        onClick={() => getUserAuth().then(res => window.location = res.data.url)}
+        onClick={() => getUserAuth().then(res => window.location = res.data.data.userAuth.url)}
         style={{backgroundColor: 'hsla(0, 0%, 100%, 0.6)', fontSize: '16px', width: '100%'}}
       >
 		Login
