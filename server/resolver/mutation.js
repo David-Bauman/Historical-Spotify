@@ -2,6 +2,8 @@ const {spawn} = require('child_process');
 const querystring = require('querystring');
 const rp = require('request-promise');
 const fs = require('fs');
+const connect = require('./../db_auth').connect;
+
 const clientInfo = fs.readFileSync('./../scripts/auth_options.txt').toString().split('\n');
 const clientID = clientInfo[0];
 const clientSecret = clientInfo[1];
@@ -46,6 +48,24 @@ const codeToToken = ({code}) => new Promise((resolve, reject) => {
   }).then(data => resolve(data)).catch(err => {console.log(err); reject(err)});
 });
 
+const logUser = ({name}) => {
+  const connection = connect();
+  return new Promise((resolve, reject) => {
+	connection.connect(err => {
+	  if (err) reject(err);
+      const escapedName = connection.escape(name);
+	  connection.query(
+	    'INSERT INTO hs_users.users (name, logins) VALUES (' + escapedName + ', 1) ON DUPLICATE KEY UPDATE logins=logins+1;',
+		(err, result) => {
+          connection.end();
+		  if (err) reject(err);
+		  resolve();
+        }
+      );
+    });
+  });
+}
+
 const refreshToken = ({code}) => new Promise((resolve, reject) => {
   rp({
     method: 'POST',
@@ -65,5 +85,6 @@ module.exports = {
 	addPlaylist: runCreatePlaylist,
     refreshToken: refreshToken,
     codeToToken: codeToToken,
-    userAuth: userAuthRedirect
+    userAuth: userAuthRedirect,
+    logUser: logUser,
 };

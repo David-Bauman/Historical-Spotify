@@ -18,6 +18,11 @@ const schema = buildSchema(`
       "the refresh code that was generated off the codeToToken endpoint"
       code: String!
     ): Tokens
+    "keeps count of how many unique users"
+    logUser(
+      "spotify username"
+      name: String!
+    ): Boolean
   },
 
   type Query {

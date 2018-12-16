@@ -5,7 +5,13 @@ import {connect} from 'react-redux';
 import {withCookies} from 'react-cookie';
 import {bindActionCreators} from 'redux';
 import qs from 'stringquery';
-import {getUserAuth, getInitialAccessToken, refreshAccessToken, getUserName} from './../../../services/api';
+import {
+    getUserAuth, 
+    getInitialAccessToken, 
+    refreshAccessToken, 
+    getUserName,
+    logUser,
+} from './../../../services/api';
 import {updatePlaying} from './../../../actions/playing';
 
 class userInfo extends React.Component {
@@ -13,20 +19,25 @@ class userInfo extends React.Component {
     super(props);
     this.createPlayer = this.createPlayer.bind(this);
     this.createUser = this.createUser.bind(this);
+    this.state = {};
+
     const params = qs(this.props.location.search);
-    if (params.code || props.cookies.get('HS-client-access') || props.cookies.get('HS-client-refresh')) {
+    if (params.code) {
       this.state = {code: params.code};
+      window.history.replaceState({code: params.code}, '', '/HistoricalPlaylists');
+    }
+    if (params.code || props.cookies.get('HS-client-access') || props.cookies.get('HS-client-refresh')) {
       this.createPlayer();
-    } else 
-      this.state = {};
+    } 
   }
 
   createUser() {
     if (!this.state.user) {
       const access = this.props.cookies.get('HS-client-access');
-      getUserName(access).then(res => 
+      getUserName(access).then(res => {
+        logUser(res.data.display_name);
         this.setState({user: {name: res.data.display_name, image: res.data.images[0]}})
-      );
+      });
     }
   }
 
@@ -46,7 +57,7 @@ class userInfo extends React.Component {
               this.props.cookies.set('HS-client-access', res.data.data.refreshToken.access_token, {maxAge: 3600});
               console.log('Got access token from the cookie\'d refresh token');
               this.createUser();
-              return cb(res.data.access_token);
+              return cb(res.data.data.refreshToken.access_token);
             });
           } else if (code) {
             getInitialAccessToken(code).then(res => {
@@ -54,10 +65,11 @@ class userInfo extends React.Component {
               this.props.cookies.set('HS-client-refresh', res.data.data.codeToToken.refresh_token);
               console.log('Got access and refresh tokens from the query code');
               this.createUser();
-              return cb(res.data.access_token);
+              return cb(res.data.data.codeToToken.access_token);
             });
+            this.setState({code: null}, () => console.log("Removed code from state"));
           } else {
-            console.error('wtf, in createPlayer', access, refresh, code);
+            console.error('problem in createPlayer', access, refresh, code);
             toast.error('Something went wrong with Spotify\'s authorization.');
             return cb('');
           }
@@ -73,8 +85,9 @@ class userInfo extends React.Component {
 
       window.player = this.player;
       this.player.connect();
-    } else
+    } else {
       setTimeout(this.createPlayer, 500);
+    }
   }
 
   componentWillUnmount() {

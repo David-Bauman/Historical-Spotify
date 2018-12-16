@@ -1,5 +1,5 @@
 const {getHistoricalPlaylist, getMostRecentPlaylist, getPlaylists} = require('./query');
-const {addPlaylist, refreshToken, codeToToken, userAuth} = require('./mutation');
+const {addPlaylist, refreshToken, codeToToken, userAuth, logUser} = require('./mutation');
 
 const rootResolver = {
 	historicalPlaylist: getHistoricalPlaylist,
@@ -8,6 +8,7 @@ const rootResolver = {
     refreshToken: refreshToken,
     codeToToken: codeToToken,
     userAuth: userAuth,
+    logUser: logUser,
 	addPlaylist: addPlaylist,
 };
 
