@@ -4,6 +4,8 @@ from requests import post, get
 from datetime import datetime
 from auth_options import payload, headers, url, connect_database
 from description_fixer import description_fixer
+from time import sleep
+from random import choice
 
 cnx = connect_database()
 cursor = cnx.cursor()
@@ -11,6 +13,16 @@ print_everything = False
 
 
 def main(print_it=False):
+    with open("last_updated.txt") as f:
+        last_updated = datetime.strptime(f.readline(), "%Y-%m-%d %H:%M:%S")
+        now = datetime.today()
+        diff = now - last_updated
+        if diff.hour < 6:
+            if choice(range(10)) != 4:
+                print("Not updating")
+                return
+    with open("last_updated.txt.", "w") as f:
+        f.write(datetime.today().strftime("%Y-%m-%d %H:%M:%S"))
     global cursor, cnx, print_everything
     print_everything = print_it
     response = post(url, data=payload, headers=headers, verify=True)
@@ -21,8 +33,10 @@ def main(print_it=False):
     auth_header = {"Authorization": "Bearer " + token}
 
     endpoints = cursor.fetchall()
+    rand = range(0.3, 10, .1)
     for item in endpoints:
         endpoint = item[0]
+        sleep(choice(rand))
         update_playlist(endpoint, auth_header)
 
     cnx.close()
@@ -36,7 +50,7 @@ def update_playlist(endpoint, auth):
 
     info = response.json()
     tracks = info["tracks"]["items"]
-    id = info["id"]
+    playlist_id = info["id"]
     song_ids = ""
     song_info = []
     for i in range(len(tracks)):
@@ -58,23 +72,23 @@ def update_playlist(endpoint, auth):
     image = info["images"][0]["url"]
     playlist_info = (now, info["snapshot_id"], info["followers"]["total"], description, image, song_ids)
     global cursor, cnx, print_everything
-    cursor.execute("SELECT songIds, description, imageURL FROM hs_playlists." + id +
-                   " WHERE timestamp=(SELECT MAX(timestamp) FROM hs_playlists." + id + ")")
+    cursor.execute("SELECT songIds, description, imageURL FROM hs_playlists." + playlist_id +
+                   " WHERE timestamp=(SELECT MAX(timestamp) FROM hs_playlists." + playlist_id + ")")
 
     affected = [None]
     current = cursor.fetchall()
     if not len(current) or current[0][0] != song_ids or current[0][1] != description or current[0][2] != image:
         affected = []
-        playlist_query = "INSERT INTO hs_playlists.%s VALUES %s;" % (id, playlist_info)
+        playlist_query = "INSERT INTO hs_playlists.%s VALUES %s;" % (playlist_id, playlist_info)
         cursor.execute(playlist_query)
         affected.append(cursor.rowcount)
 
         update_desc_image = "UPDATE hs_playlists.general SET description='%s', imageURL='%s' WHERE id='%s';" % \
-                            (description, image, id)
+                            (description, image, playlist_id)
         cursor.execute(update_desc_image)
         affected.append(cursor.rowcount)
 
-        song_query = "INSERT IGNORE INTO hs_songs." + id + " VALUES (%s, %s, %s, %s, %s, %s);"
+        song_query = "INSERT IGNORE INTO hs_songs." + playlist_id + " VALUES (%s, %s, %s, %s, %s, %s);"
         cursor.executemany(song_query, song_info)
         affected.append(cursor.rowcount)
 
@@ -90,4 +104,4 @@ if __name__ == "__main__":
     main()
     print("Updating playlists took %.2f seconds" % float(time() - start_time))
 else:
-    print("fuck")
+    print("Where is this being called from?")

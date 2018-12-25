@@ -1,4 +1,5 @@
 node_modules
+last_updated.txt
 result.txt
 db_auth.*
 auth_options.*
