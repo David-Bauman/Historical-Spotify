@@ -18,7 +18,7 @@ Historical Spotify keeps track of the state of Spotify playlists as they change 
 
 ## How It Works
 
-[Scripts](https://github.com/David-Bauman/Historical-Spotify/tree/master/scripts) run at set time intervals to determine what, if anything, has changed in the playlists we're watching. All information is stored in MySQL databases. A [Express server](https://github.com/David-Bauman/Historical-Spotify/tree/master/server) exposes the API so that the [client](https://github.com/David-Bauman/Historical-Spotify/tree/master/client) can have up to the moment information. 
+[Scripts](https://github.com/David-Bauman/Historical-Spotify/tree/master/scripts) run at set time intervals to determine what, if anything, has changed in the playlists we're watching. All information is stored in MySQL databases. An [Express server](https://github.com/David-Bauman/Historical-Spotify/tree/master/server) exposes the API so that the [client](https://github.com/David-Bauman/Historical-Spotify/tree/master/client) can have up to the moment information. 
 
 ## To Do
 

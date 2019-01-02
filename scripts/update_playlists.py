@@ -6,40 +6,40 @@ from auth_options import payload, headers, url, connect_database
 from description_fixer import description_fixer
 from time import sleep
 from random import choice
+from time import time
 
 cnx = connect_database()
 cursor = cnx.cursor()
-print_everything = False
 
 
-def main(print_it=False):
+def main():
     with open("last_updated.txt") as f:
         last_updated = datetime.strptime(f.readline(), "%Y-%m-%d %H:%M:%S")
-        now = datetime.today()
-        diff = now - last_updated
-        if diff.hour < 6:
-            if choice(range(10)) != 4:
-                print("Not updating")
-                return
-    with open("last_updated.txt.", "w") as f:
-        f.write(datetime.today().strftime("%Y-%m-%d %H:%M:%S"))
-    global cursor, cnx, print_everything
-    print_everything = print_it
+    now = datetime.today()
+    diff = now - last_updated
+    if diff.seconds < 21600:
+        update = choice(range(10))
+        if update != 4:
+            print("Not updating - %d, %d" % (update, diff.seconds))
+            return False
+    print("Updating")
+    with open("last_updated.txt", "w") as f:
+        f.write(now.strftime("%Y-%m-%d %H:%M:%S"))
     response = post(url, data=payload, headers=headers, verify=True)
     if response.status_code != 200:
         raise Exception(response.reason)
     token = response.json()["access_token"]
-    cursor.execute("SELECT apiEndpoint FROM hs_playlists.general")
     auth_header = {"Authorization": "Bearer " + token}
-
+    cursor.execute("SELECT apiEndpoint FROM hs_playlists.general")
     endpoints = cursor.fetchall()
-    rand = range(0.3, 10, .1)
+    rand = range(1, int(1800/len(endpoints)))
     for item in endpoints:
         endpoint = item[0]
         sleep(choice(rand))
         update_playlist(endpoint, auth_header)
 
     cnx.close()
+    return True
 
 
 def update_playlist(endpoint, auth):
@@ -71,7 +71,7 @@ def update_playlist(endpoint, auth):
     description = description_fixer(info["description"])
     image = info["images"][0]["url"]
     playlist_info = (now, info["snapshot_id"], info["followers"]["total"], description, image, song_ids)
-    global cursor, cnx, print_everything
+    global cursor, cnx
     cursor.execute("SELECT songIds, description, imageURL FROM hs_playlists." + playlist_id +
                    " WHERE timestamp=(SELECT MAX(timestamp) FROM hs_playlists." + playlist_id + ")")
 
@@ -94,14 +94,15 @@ def update_playlist(endpoint, auth):
 
         cnx.commit()
 
-    if __name__ == "__main__" or print_everything:
-        print(affected)
+    print(affected)
 
 
 if __name__ == "__main__":
-    from time import time
+    print(datetime.today().strftime("%Y-%m-%d %H:%M:%S"))
     start_time = time()
-    main()
-    print("Updating playlists took %.2f seconds" % float(time() - start_time))
+    if main():
+        print("Updating playlists took %.2f seconds\n" % float(time() - start_time))
+    else:
+        print("\n")
 else:
     print("Where is this being called from?")
