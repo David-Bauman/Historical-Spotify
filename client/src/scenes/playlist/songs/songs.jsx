@@ -95,5 +95,5 @@ export class Song extends React.Component {
 Song.propTypes = {
 	datePickerOpen: PropTypes.bool,
 	id: PropTypes.number,
-	song: PropTypes.obj
+	song: PropTypes.object
 };
