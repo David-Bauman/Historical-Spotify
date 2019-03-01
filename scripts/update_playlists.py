@@ -45,7 +45,8 @@ def main():
 def update_playlist(endpoint, auth):
     response = get("https://api.spotify.com/v1/users/" + endpoint, headers=auth)
     if response.status_code != 200:
-        raise Exception(response.reason)
+        print(response.reason)
+        return
     now = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
 
     info = response.json()
@@ -56,6 +57,10 @@ def update_playlist(endpoint, auth):
     for i in range(len(tracks)):
         track = tracks[i]
         song = track["track"]
+        if song == None:  # Seems like Spotify is just sending some empty tracks sometimes?
+            print("Possible error, likely on Spotify's side")
+            print(track, endpoint, i, len(tracks), "\n")
+            continue
         if i:
             song_ids += ","
         song_ids += song["id"]
