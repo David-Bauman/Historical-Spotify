@@ -23,8 +23,6 @@ def main():
             print("Not updating - %d, %d" % (update, diff.seconds))
             return False
     print("Updating")
-    with open("last_updated.txt", "w") as f:
-        f.write(now.strftime("%Y-%m-%d %H:%M:%S"))
     response = post(url, data=payload, headers=headers, verify=True)
     if response.status_code != 200:
         raise Exception(response.reason)
@@ -39,6 +37,8 @@ def main():
         update_playlist(endpoint, auth_header)
 
     cnx.close()
+    with open("last_updated.txt", "w") as f:
+        f.write(now.strftime("%Y-%m-%d %H:%M:%S"))
     return True
 
 
@@ -74,7 +74,11 @@ def update_playlist(endpoint, auth):
                           song["duration_ms"], song["album"]["release_date"]))
 
     description = description_fixer(info["description"])
-    image = info["images"][0]["url"]
+    try:
+        image = info["images"][0]["url"]
+    except IndexError:
+        print("Errored out in {} trying to get the playlist image. Here's the response object [\"images\"]: {}".format(description, info["images"]))
+        return
     playlist_info = (now, info["snapshot_id"], info["followers"]["total"], description, image, song_ids)
     global cursor, cnx
     cursor.execute("SELECT songIds, description, imageURL FROM hs_playlists." + playlist_id +

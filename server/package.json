@@ -2,6 +2,7 @@
   "name": "Historical-Spotify-Server-Side",
   "version": "1.0.0",
   "description": "Spotify historical playlists",
+  "private": true,
   "main": "app.js",
   "author": "David Bauman",
   "license": "MIT",
@@ -11,7 +12,6 @@
     "express-graphql": "^0.7.1",
     "graphql": "^14.1.1",
     "https": "^1.0.0",
-    "moment": "^2.24.0",
     "mysql": "^2.16.0",
     "request": "^2.87.0",
     "request-promise": "^4.2.4"

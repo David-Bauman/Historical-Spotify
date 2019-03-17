@@ -3,7 +3,7 @@ const connect = require('./../db_auth').connect;
 const getPlaylists = () => {
     const connection = connect();
     return new Promise((resolve, reject) => {
-	    connection.connect(err => {
+        connection.connect(err => {
             if (err) reject(err);
             connection.query(
                 'SELECT id, name, description, imageURL, views, createDate FROM hs_playlists.general ORDER BY views DESC;',
