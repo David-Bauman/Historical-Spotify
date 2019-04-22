@@ -1,12 +1,12 @@
 #! /usr/bin/python3
 
-from requests import post, get
 from datetime import datetime
+from random import choice
+from requests import post, get
+from time import sleep, time
+
 from auth_options import payload, headers, url, connect_database
 from description_fixer import description_fixer
-from time import sleep
-from random import choice
-from time import time
 
 cnx = connect_database()
 cursor = cnx.cursor()
