@@ -18,9 +18,9 @@ app.use('/graphql', express_graphql({
 }));
 
 const options = {
-    key: fs.readFileSync('/etc/letsencrypt/live/bauman.zapto.org/privkey.pem', 'utf-8'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/bauman.zapto.org/cert.pem', 'utf-8'),
-    ca: fs.readFileSync('/etc/letsencrypt/live/bauman.zapto.org/chain.pem', 'utf-8'),
+  key: fs.readFileSync('/etc/letsencrypt/live/bauman.zapto.org/privkey.pem', 'utf-8'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/bauman.zapto.org/cert.pem', 'utf-8'),
+  ca: fs.readFileSync('/etc/letsencrypt/live/bauman.zapto.org/chain.pem', 'utf-8'),
 };
 
 const server = https.createServer(options, app)

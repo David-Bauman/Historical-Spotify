@@ -5,7 +5,7 @@ from auth_options import payload, headers, url, connect_database
 from description_fixer import description_fixer
 from update_playlists import update_playlist
 
-cnx = connect_dtabase()
+cnx = connect_database()
 cursor = cnx.cursor()
 
 
