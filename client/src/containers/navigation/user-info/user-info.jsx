@@ -6,11 +6,11 @@ import {withCookies} from 'react-cookie';
 import {bindActionCreators} from 'redux';
 import qs from 'stringquery';
 import {
-    getUserAuth, 
-    getInitialAccessToken, 
-    refreshAccessToken, 
-    getUserName,
-    logUser,
+  getUserAuth, 
+  getInitialAccessToken, 
+  refreshAccessToken, 
+  getUserName,
+  logUser,
 } from './../../../services/api';
 import {updatePlaying} from './../../../actions/playing';
 
@@ -96,24 +96,25 @@ class userInfo extends React.Component {
 
   render() {
     const user = this.state.user;
-    if (user) 
+    if (user) {
       return (
-      <div style={{position: 'absolute', borderTop: '1px solid gray', bottom: `${this.props.current === '' ? 25 : 100}px`, alignSelf: 'center', fontSize: '18px', width: '80%', textAlign: 'center', paddingTop: '15px'}}>
-        {user.image && <img src={user.image.url} alt={'user\'s avatar'} style={{width: '30px', height: '30px', display: 'inline-block'}} />}
-        <span>{user.name}</span>
-      </div>
+        <div style={{position: 'absolute', borderTop: '1px solid gray', bottom: `${this.props.current === '' ? 25 : 100}px`, alignSelf: 'center', fontSize: '18px', width: '80%', textAlign: 'center', paddingTop: '15px'}}>
+          {user.image && <img src={user.image.url} alt={'user\'s avatar'} style={{width: '30px', height: '30px', display: 'inline-block'}} />}
+          <span>{user.name}</span>
+        </div>
       );
+    }
 
     return (
-	<div style={{position: 'absolute', width: '150px', alignSelf: 'center', bottom: '25px'}}>
-	  <button
-        className='btn'
-        onClick={() => getUserAuth().then(res => window.location = res.data.data.userAuth.url)}
-        style={{backgroundColor: 'hsla(0, 0%, 100%, 0.6)', fontSize: '16px', width: '100%'}}
-      >
-		Login
-	  </button>
-	</div>
+      <div style={{position: 'absolute', width: '150px', alignSelf: 'center', bottom: '25px'}}>
+        <button
+          className='btn'
+          onClick={() => getUserAuth().then(res => window.location = res.data.data.userAuth.url)}
+          style={{backgroundColor: 'hsla(0, 0%, 100%, 0.6)', fontSize: '16px', width: '100%'}}
+        >
+          Login
+        </button>
+      </div>
     );
   }
 }

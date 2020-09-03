@@ -11,9 +11,9 @@
 }
 
 @media(max-width: 574px) {
-    .information-container {
-        padding-left: 150px;
-    }
+  .information-container {
+    padding-left: 150px;
+  }
 }
 
 .spaced {

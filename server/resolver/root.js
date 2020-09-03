@@ -2,14 +2,14 @@ const {getHistoricalPlaylist, getMostRecentPlaylist, getPlaylists} = require('./
 const {addPlaylist, refreshToken, codeToToken, userAuth, logUser} = require('./mutation');
 
 const rootResolver = {
-    historicalPlaylist: getHistoricalPlaylist,
-    mostRecentPlaylist: getMostRecentPlaylist,
-    playlists: getPlaylists,
-    refreshToken: refreshToken,
-    codeToToken: codeToToken,
-    userAuth: userAuth,
-    logUser: logUser,
-    addPlaylist: addPlaylist,
+  historicalPlaylist: getHistoricalPlaylist,
+  mostRecentPlaylist: getMostRecentPlaylist,
+  playlists: getPlaylists,
+  refreshToken: refreshToken,
+  codeToToken: codeToToken,
+  userAuth: userAuth,
+  logUser: logUser,
+  addPlaylist: addPlaylist,
 };
 
 module.exports = rootResolver;

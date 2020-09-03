@@ -2,10 +2,10 @@ const {buildSchema} = require('graphql');
 
 const schema = buildSchema(`
   type Mutation {
-	addPlaylist(
-	  "the link in format: @user/playlists/@id"
-	  link: String!
-	): PlaylistOverview
+    addPlaylist(
+      "the link in format: @user/playlists/@id"
+      link: String!
+    ): PlaylistOverview
     "returns URL for user to authorize spotify account"
     userAuth: URL
     "returns initial access token as well as a refresh token"

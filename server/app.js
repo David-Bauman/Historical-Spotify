@@ -26,5 +26,5 @@ const options = {
 const server = https.createServer(options, app)
 
 server.listen(4000, () => {
-    console.log('Listening on https://bauman.zapto.org:4000')
+  console.log('Listening on https://bauman.zapto.org:4000')
 });

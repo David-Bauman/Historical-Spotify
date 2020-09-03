@@ -1,20 +1,20 @@
 .CalendarDay__selected {
-	background: #d12115;
-	border: #d12115;
-	color: rgb(14, 2, 1);
+  background: #d12115;
+  border: #d12115;
+  color: rgb(14, 2, 1);
 }
 
 .CalendarDay:hover {
-	background: rgba(209, 33, 21, .5);
-	color: black;
+  background: rgba(209, 33, 21, .5);
+  color: black;
 }
 
 .CalendarDay:active {
-	background: rgba(209, 33, 21, 0.5);
-	color: black;
+  background: rgba(209, 33, 21, 0.5);
+  color: black;
 }
 
 .CalendarDay__blocked_out_of_range:hover {
-	background: #fff;
-	color: #cacccd;
+  background: #fff;
+  color: #cacccd;
 }

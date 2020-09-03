@@ -1,90 +1,90 @@
 .nav-bar {
-    width: 200px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    z-index: 100;
-    background-color: rgba(0, 0, 0, 0.75);
-    overflow: auto;
-    min-height: 0 !important;
+  width: 200px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.75);
+  overflow: auto;
+  min-height: 0 !important;
 }
 
 .nav-bar > nav {
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    color: hsla(0, 0%, 100%, .6);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: hsla(0, 0%, 100%, .6);
 }
 
 .nav-item-container {
-    font-size: 16px;
-    line-height: 22px;
-    letter-spacing: .015em;
-    font-weight: 600;
-    padding: 3px 0 3px 36px;
-    position: relative;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: .015em;
+  font-weight: 600;
+  padding: 3px 0 3px 36px;
+  position: relative;
 }
 
 @media(max-width: 574px) {
-    .nav-bar {
-        width: 150px;
-    }
-    .nav-bar > nav {
-        padding: 24px 5px;
-    }
-    .nav-item-container {
-        font-size: 12px;
-    }
+  .nav-bar {
+    width: 150px;
+  }
+  .nav-bar > nav {
+    padding: 24px 5px;
+  }
+  .nav-item-container {
+    font-size: 12px;
+  }
 }
 
 .nav-bar > nav > ul > li {
-    padding-bottom: 5px;
-    padding-top: 10px;
+  padding-bottom: 5px;
+  padding-top: 10px;
 }
 
 .nav-item-container:hover {
-    color: white;
+  color: white;
 }
 
 .nav-item {
-    border: 0;
-    color: inherit;
-    display: inline-block;
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  border: 0;
+  color: inherit;
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .nav-item:hover {
-    color: white;
+  color: white;
 }
 
 .nav-item-icon {
-    position: absolute;
-    left: 0;
-    top: 2px;
-    height: 24px;
-    width: 24px;
+  position: absolute;
+  left: 0;
+  top: 2px;
+  height: 24px;
+  width: 24px;
 }
 
 .searched-playlist {
-    color: white;
+  color: white;
 }
 
 .searched-playlist:hover {
-    color: gray;
+  color: gray;
 }
 
 .searched-playlist-container {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .searched-playlist-container:hover {
-    background: rgba(0, 0, 0, .5);
+  background: rgba(0, 0, 0, .5);
 }
